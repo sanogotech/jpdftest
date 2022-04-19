@@ -59,4 +59,10 @@ public class PdfPageAssertionTest {
         PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 164, 310)).contains("2_page_dummy.md"));
     }
 	
+	//TODO facture_reelle_CIERR_BT.pdf  //  Facture_033-GF1-LOT1EHUI14032022104751New.pdf
+	@Test
+    public void NewGivenTwoPagePdfWithSameTextPart_shouldMatchTextInEveryPage() {
+        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/facture_reelle_CIERR_BT.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 400, 400)).contains("2_page_dummy.md"));
+    }
+	
 }
