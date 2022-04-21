@@ -1,5 +1,12 @@
 package io.github.derkrischan.pdftest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.pdfbox.multipdf.Splitter;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Test;
 
 import io.github.derkrischan.pdftest.image.MetricRectangle;
@@ -59,10 +66,55 @@ public class PdfPageAssertionTest {
         PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 164, 310)).contains("2_page_dummy.md"));
     }
 	
-	//TODO facture_reelle_CIERR_BT.pdf  //  Facture_033-GF1-LOT1EHUI14032022104751New.pdf
+
+	//TODO   https://www.tutorialkart.com/pdfbox/pdfbox-split-pdf-document-into-multiple-pdfs/
 	@Test
-    public void NewGivenTwoPagePdfWithSameTextPart_shouldMatchTextInEveryPage() {
-        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/facture_reelle_CIERR_BT.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 400, 400)).contains("2_page_dummy.md"));
+    public void NewPrintPageSample() {
+		
+         InputStream iStream= ClassLoader.getSystemResourceAsStream("pdf/facture_sample.pdf");
+		
+		
+
+        PDDocument documentFull =null;
+		try {
+
+			  // load pdf file
+			  documentFull = PDDocument.load(iStream);
+	
+	 
+	          // instantiating Splitter
+	          Splitter splitter = new Splitter();
+	           
+	          // split the pages of a PDF document
+	          List<PDDocument> Pages = splitter.split(documentFull);
+	 
+	       
+	      	int pageNumber = 1;
+	          for (PDDocument pageDocument : Pages) {
+	        	  
+	        		String textPageContent = new PDFTextStripper().getText(pageDocument);
+	        		
+	        		/*
+	        		  String[] splittab = textPageContent.split("");
+	        		  for (int i = 0; i < splittab.length; i++) {
+	        			 String valeur = splittab[i];
+	        			 System.out.println("zzz Valeur num "+ i +" ="+ valeur); 
+					   }
+					   */
+
+	        		  System.out.println("***** Page Num "+ pageNumber + " : ");
+				      System.out.println(textPageContent);
+				      pageNumber = pageNumber +1;
+				
+			 }
+			
+	      
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
     }
 	
+    
 }
