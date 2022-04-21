@@ -66,7 +66,12 @@ public class PdfPageAssertionTest {
         PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 164, 310)).contains("2_page_dummy.md"));
     }
 	
-
+	//TODO MetricRectangle  400, 400 to get full content
+	//@Test
+    public void NewGivenTwoPagePdfWithSameTextPart_shouldMatchTextInEveryPage() {
+        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/facture_sample.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 400, 400)).contains("2_page_dummy.md"));
+    }
+	
 	//TODO   https://www.tutorialkart.com/pdfbox/pdfbox-split-pdf-document-into-multiple-pdfs/
 	@Test
     public void NewPrintPageSample() {
